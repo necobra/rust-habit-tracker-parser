@@ -1,0 +1,12 @@
+[package]
+name = "habit_tracker_parser"
+version = "0.1.0"
+edition = "2021"
+description = "A parser for habit tracking records"
+readme = "README.md"
+
+
+[dependencies]
+anyhow = "1.0.93"
+pest = "2.7.14"
+pest_derive = "2.7.14"
