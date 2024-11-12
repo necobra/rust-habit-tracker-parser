@@ -1,5 +1,8 @@
 # Habit Tracker Parser
 
+- links: https://crates.io/crates/habit_tracker_parser
+- docs: https://docs.rs/habit_tracker_parser/latest/habit_tracker_parser/
+
 ## Overview
 
 The Habit Tracker Parser is a Rust-based application designed to parse and analyze data from the habit-tracking tool, Habito, which is widely used on Linux. This parser’s purpose is to convert raw habit-tracking records into a structured format, ready for further analysis or export. It simplifies the extraction of key metrics about habit performance, making it easy to observe patterns, visualize progress, and identify areas for improvement over time.
