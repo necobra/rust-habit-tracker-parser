@@ -21,7 +21,7 @@ The parser will recognize each part of the record based on positional patterns a
 
 Given an example record:
 
-```
+```text
 │ 9: write 15 pages │ 15.0 │ 1 days │ □ □ ■ □ □ □ □ □ □ │ 
 │ 10: workout │ 1.0 │ 2 days │ ■ ■ □ □ □ □ □ □ □ │
 ```
