@@ -1,3 +1,34 @@
-full_checkbox = {"■"}
-empty_checkbox = { "□"}
-checkbox = {full_checkbox | empty_checkbox}
+// Define individual components
+full_checkbox = { "■" }
+empty_checkbox = { "□" }
+checkbox = { full_checkbox | empty_checkbox }
+
+// Define the structure of a habit record
+habit_number = { ASCII_DIGIT+ }
+description = { (ASCII_ALPHANUMERIC | " " | ":")+ }
+goal_metric = { ASCII_DIGIT+ ~ "." ~ ASCII_DIGIT* }
+time_period = { ASCII_DIGIT+ ~ " " ~ ("days" | "day") }
+
+// Define sequence of checkboxes for tracking completion over time
+completion_status = { (checkbox | " ")+ }
+
+divider = _{ ("│" | "*" | ":" | " ")* }
+
+
+// Define a full habit tracking record
+habit_record = {
+    divider ~
+    habit_number ~
+    divider ~
+    description ~
+    divider ~
+    goal_metric ~
+    divider ~
+    time_period ~
+    divider ~
+    completion_status ~
+    divider
+}
+
+// Entry point for parsing
+habits = _{ habit_record* }
