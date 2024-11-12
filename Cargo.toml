@@ -3,6 +3,7 @@ name = "habit_tracker_parser"
 version = "0.1.0"
 edition = "2021"
 description = "A parser for habit tracking records"
+license = "MIT"
 readme = "README.md"
 
 
