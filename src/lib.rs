@@ -57,9 +57,7 @@ impl HabitRecord {
                             })?;
                         }
                         Rule::completion_status => {
-                            println!("{}", inner_pair);
                             for checkbox in inner_pair.into_inner() {
-                                println!("{}", checkbox);
                                 if let Some(inner_checkbox) = checkbox.into_inner().next() {
                                     match inner_checkbox.as_rule() {
                                         Rule::full_checkbox => completion_status.push(true),
