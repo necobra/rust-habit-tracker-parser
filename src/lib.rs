@@ -14,6 +14,8 @@ pub struct HabitRecord {
     pub description: String,
     pub goal_metric: f32,
     pub time_period: String,
+    pub optional_category: Option<String>,
+    pub optional_tags: Option<Vec<String>>,
     pub completion_status: Vec<bool>,
 }
 
@@ -32,11 +34,14 @@ impl HabitRecord {
         let mut description = String::new();
         let mut goal_metric = 0.0;
         let mut time_period = String::new();
+        let mut optional_category: Option<String> = None;
+        let mut optional_tags: Option<Vec<String>> = None;
         let mut completion_status = Vec::new();
 
         for pair in pairs {
             if pair.as_rule() == Rule::habit_record {
                 for inner_pair in pair.into_inner() {
+                    println!("{}", inner_pair);
                     match inner_pair.as_rule() {
                         Rule::habit_number => {
                             id = inner_pair.as_str().parse().map_err(|_| {
@@ -52,9 +57,19 @@ impl HabitRecord {
                             })?;
                         }
                         Rule::time_period => {
-                            time_period = inner_pair.as_str().parse().map_err(|_| {
-                                HabitParseError::ParseError("Invalid time period".to_string())
-                            })?;
+                            time_period = inner_pair.as_str().to_string();
+                        }
+                        Rule::optional_category => {
+                            if let Some(category_pair) = inner_pair.into_inner().next() {
+                                optional_category = Some(category_pair.as_str().to_string());
+                            }
+                        }
+                        Rule::optional_tags => {
+                            let tags = inner_pair
+                                .into_inner()
+                                .map(|tag| tag.as_str().trim().to_string())
+                                .collect();
+                            optional_tags = Some(tags);
                         }
                         Rule::completion_status => {
                             for checkbox in inner_pair.into_inner() {
@@ -78,6 +93,8 @@ impl HabitRecord {
             description,
             goal_metric,
             time_period,
+            optional_category,
+            optional_tags,
             completion_status,
         })
     }

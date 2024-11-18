@@ -1,21 +1,41 @@
-// Define individual components
+/// Matches a filled checkbox symbol (`■`) indicating a completed day.
 full_checkbox = { "■" }
+
+/// Matches an empty checkbox symbol (`□`) indicating an incomplete day.
 empty_checkbox = { "□" }
+
+/// Matches either a filled (`■`) or empty (`□`) checkbox.
 checkbox = { full_checkbox | empty_checkbox }
 
-// Define the structure of a habit record
+/// Matches the habit number, which is one or more digits.
 habit_number = { ASCII_DIGIT+ }
-description = { (ASCII_ALPHANUMERIC | " " | ":")+ }
-goal_metric = { ASCII_DIGIT+ ~ "." ~ ASCII_DIGIT* }
-time_period = { ASCII_DIGIT+ ~ " " ~ ("days" | "day") }
 
-// Define sequence of checkboxes for tracking completion over time
+/// Matches the habit description, allowing alphanumeric characters, spaces, and colons.
+description = { (ASCII_ALPHANUMERIC | " " | ":")+ }
+
+/// Matches the goal metric, allowing integer or decimal numbers.
+goal_metric = { ASCII_DIGIT+ ~ ("." ~ ASCII_DIGIT*)? }
+
+/// Matches the time period, which includes a number followed by a unit (`days`, `day`, `weeks`, `week`).
+time_period = { ASCII_DIGIT+ ~ " " ~ ("days" | "day" | "weeks" | "week") }
+
+category = { (ASCII_ALPHANUMERIC | " ")+ }
+
+/// Matches an optional category enclosed in square brackets (e.g., `[fitness]`).
+optional_category = { "[" ~ category ~ "]" }
+
+tag = { (ASCII_ALPHANUMERIC | " ")+ }
+
+/// Matches optional tags enclosed in curly braces, allowing multiple tags separated by commas (e.g., `{health, productivity}`).
+optional_tags = { "{" ~ (tag | ",")+ ~ "}" }
+
+/// Matches a sequence of checkboxes (□ or ■), allowing spaces between them.
 completion_status = { (checkbox | " ")+ }
 
+/// Matches a divider character, which can be pipes (`│`), asterisks (`*`), colons (`:`), or spaces.
 divider = _{ ("│" | "*" | ":" | " ")* }
 
-
-// Define a full habit tracking record
+/// Matches a complete habit record, including all fields and optional components.
 habit_record = {
     divider ~
     habit_number ~
@@ -26,9 +46,11 @@ habit_record = {
     divider ~
     time_period ~
     divider ~
+    optional_category? ~
+    divider ~
+    optional_tags? ~
+    divider ~
     completion_status ~
     divider
 }
 
-// Entry point for parsing
-habits = _{ habit_record* }
